@@ -11,7 +11,6 @@ const EmployeeDashboard = () => {
         <h1>Login As : {currentUser.userType} </h1>
         <p>Email : {currentUser.email}</p>
         <p>Name : {currentUser.name}</p>
-        <p>Email Verified : {is}</p>
       </div>
     </div>
   );
