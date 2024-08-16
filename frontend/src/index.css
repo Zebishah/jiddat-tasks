@@ -19,3 +19,8 @@
 .slick-dots li button:before {
   font-size: 20px;
 }
+
+.sidebar-cont .sidebar{
+  height: 100vh;
+  background-color: aqua !important;
+}

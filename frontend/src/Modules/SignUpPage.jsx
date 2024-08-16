@@ -3,7 +3,13 @@ import { db, auth } from "../config/firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import bcrypt from "bcryptjs";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { useAuth } from "../AuthContext";
+import { Link } from "react-router-dom";
+
 const SignUpPage = () => {
   const [selected, setSelected] = useState("SignUp As");
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +17,8 @@ const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const { currentUser } = useAuth();
+  console.log(currentUser);
   const options = [
     { value: "employee", label: "Employee" },
     // asadas
@@ -59,7 +66,7 @@ const SignUpPage = () => {
         userType: selected,
         dateCreated: new Date(),
       });
-
+      await sendEmailVerification(user);
       // Clear the form fields after successful registration
       setName("");
       setEmail("");
@@ -79,7 +86,7 @@ const SignUpPage = () => {
       <div className="flex flex-col items-center w-[50%] justify-center bg-white rounded-md shadow-lg gap-y-8 px-10 py-14">
         <h1 className="text-3xl font-bold text-black">Logo</h1>
         <div className="flex flex-col items-center justify-center w-full gap-y-8">
-          <h1 className="text-2xl font-bold text-black">Sign Up</h1>
+          <h1 className="text-2xl font-bold text-black">SignUp Form</h1>
           <div className="flex flex-col items-center justify-center w-full">
             <form
               className="w-[48%] flex flex-col items-center justify-center gap-y-6"
@@ -154,9 +161,11 @@ const SignUpPage = () => {
                 />
                 <div className="flex flex-col items-end justify-end w-full">
                   <p className="text-black cursor-pointer">Already a member?</p>
-                  <button className="bg-[#043758] rounded-md text-white shadow-lg p-4 w-full">
-                    Login
-                  </button>
+                  <Link to={"/signIn"} className="w-full">
+                    <button className="bg-[#043758] rounded-md text-white shadow-lg p-4 w-full">
+                      Login
+                    </button>
+                  </Link>
                 </div>
               </div>
             </form>
